@@ -6,7 +6,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import Navigation from "./src/navigation/Navigation";
 export default function App() {
-  const [user, setUser] = useState(true);
+  const [user, setUser] = useState(null);
 
   return (
     <>
