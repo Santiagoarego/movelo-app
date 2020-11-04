@@ -12,7 +12,7 @@ const Tab = createMaterialBottomTabNavigator();
 export default function Navigation() {
   return (
     <NavigationContainer>
-      <Tab.Navigator shifting initialRouteName="mapa" activeColor="#fff">
+      <Tab.Navigator shifting initialRouteName="mapa" activeColor="#ffffff">
         <Tab.Screen
           name="mapa"
           component={MapaStack}

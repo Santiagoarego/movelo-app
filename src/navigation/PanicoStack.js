@@ -12,10 +12,11 @@ export default function PanicoStack() {
         name="panico"
         component={Panico}
         options={{
-          title: "Boton panico",
+          title: "Boton Panico",
           cardStyle: { backgroundColor: "#15212b" },
           headerStyle: { backgroundColor: "#fd2f2f" },
           headerTintColor: "#fff",
+          headerTitleAlign:"center"
         }}
       />
     </Stack.Navigator>

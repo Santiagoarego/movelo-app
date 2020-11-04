@@ -16,6 +16,7 @@ export default function MapaStack() {
           headerTintColor: "#fff",
           cardStyle: { backgroundColor: "#15212b" },
           headerStyle: { backgroundColor: "#05e680" },
+          headerTitleAlign:"center"
         }}
       />
     </Stack.Navigator>

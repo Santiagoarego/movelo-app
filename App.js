@@ -6,11 +6,11 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import Navigation from "./src/navigation/Navigation";
 export default function App() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(true);
 
   return (
     <>
-      <StatusBar barStyle="light-content" backgroundColor="#05e680" />
+      <StatusBar barStyle="light-content" />
       <SafeAreaView style={styles.background}>
         {user ? <Navigation /> : <Auth setUser={setUser} />}
       </SafeAreaView>
