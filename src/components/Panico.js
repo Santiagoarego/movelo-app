@@ -11,7 +11,7 @@ export default function Panico() {
         honesta y seria.
       </Text>
       <Text></Text>
-      <BotonCircular circleDiameter={300}>
+      <BotonCircular onPress={() => console.log("Hola")} circleDiameter={300}>
         <Text
           style={{
             color: "white",
@@ -31,5 +31,6 @@ const styles = StyleSheet.create({
   view: {
     flex: 1,
     alignItems: "center",
+    justifyContent: "center",
   },
 });

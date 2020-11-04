@@ -16,7 +16,8 @@ export default function PanicoStack() {
           cardStyle: { backgroundColor: "#15212b" },
           headerStyle: { backgroundColor: "#fd2f2f" },
           headerTintColor: "#fff",
-          headerTitleAlign:"center"
+          headerTitleAlign: "center",
+          headerShown: false,
         }}
       />
     </Stack.Navigator>
