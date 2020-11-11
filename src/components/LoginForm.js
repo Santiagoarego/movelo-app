@@ -61,7 +61,7 @@ export default function LoginForm(props) {
   const apiAxios = () => {
     axios({
       method: "POST",
-      url: "https://proyecto-arquitectura.herokuapp.com/facade/loginBici",
+      url: "https://proyecto-arquitectura.herokuapp.com/proxy/loginBiciusuario",
       params: { correo: data.correo, password: data.password },
       headers: {
         Accept: "application/json",

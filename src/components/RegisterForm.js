@@ -11,6 +11,7 @@ export default function RegisterForm(props) {
   const [formError, setFormError] = useState({});
   const [formData, setFormData] = useState({
     nombre: "",
+    apellido: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -27,12 +28,14 @@ export default function RegisterForm(props) {
       !formData.email ||
       !formData.confirmPassword ||
       !formData.nombre ||
-      !formData.password
+      !formData.password ||
+      !formData.apellido
     ) {
       if (!formData.email) errors.email = true;
       if (!formData.confirmPassword) errors.confirmPassword = true;
       if (!formData.nombre) errors.nombre = true;
       if (!formData.password) errors.password = true;
+      if (!formData.apellido) errors.apellido = true;
     } else if (!validateEmail(formData.email)) {
       errors.email = true;
     } else if (formData.password.length < 6) {
@@ -43,10 +46,12 @@ export default function RegisterForm(props) {
       setIsLoading(true);
       usuario = {
         id: "",
-        email: formData.email,
+        correo: formData.email,
         nombre: formData.nombre,
+        apellido: formData.apellido,
         password: formData.password,
         rol: "biciusuario",
+        bicicletas: [],
       };
 
       apiEndPoint();
@@ -63,7 +68,7 @@ export default function RegisterForm(props) {
         "Content-Type": "application/json",
       },
       url:
-        "https://proyecto-arquitectura.herokuapp.com/facade/pruebaBiciUsuario",
+        "https://proyecto-arquitectura.herokuapp.com/proxy/agregarBiciusuario",
       data: JSON.stringify(usuario),
     })
       .then((res) => {
@@ -86,11 +91,20 @@ export default function RegisterForm(props) {
         contentContainerStyle={{ alignItems: "center" }}
       >
         <TextInput
-          placeholder="Nombres y Apellidos"
+          placeholder="Nombres"
           placeholderTextColor="#969696"
           style={[styles.input, formError.nombre && styles.error]}
           onChange={(e) =>
             setFormData({ ...formData, nombre: e.nativeEvent.text })
+          }
+          autoCompleteType="name"
+        />
+        <TextInput
+          placeholder="Apellidos"
+          placeholderTextColor="#969696"
+          style={[styles.input, formError.apellido && styles.error]}
+          onChange={(e) =>
+            setFormData({ ...formData, apellido: e.nativeEvent.text })
           }
           autoCompleteType="name"
         />
