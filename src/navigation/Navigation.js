@@ -9,7 +9,7 @@ import PanicoStack from "./PanicoStack";
 
 const Tab = createMaterialBottomTabNavigator();
 
-export default function Navigation() {
+export default function Navigation({ user }) {
   return (
     <NavigationContainer>
       <Tab.Navigator shifting initialRouteName="mapa" activeColor="#ffffff">
@@ -22,6 +22,9 @@ export default function Navigation() {
             tabBarIcon: ({ color }) => (
               <MaterialCommunityIcons name="map" color={color} size={26} />
             ),
+          }}
+          initialParams={{
+            user: user,
           }}
         />
         <Tab.Screen

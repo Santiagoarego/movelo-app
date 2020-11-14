@@ -12,7 +12,7 @@ export default function App() {
     <>
       <StatusBar barStyle="light-content" />
       <SafeAreaView style={styles.background}>
-        {user ? <Navigation /> : <Auth setUser={setUser} />}
+        {user ? <Navigation user={user} /> : <Auth setUser={setUser} />}
       </SafeAreaView>
     </>
   );

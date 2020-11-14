@@ -5,7 +5,7 @@ import Mapa from "../components/Mapa";
 
 const Stack = createStackNavigator();
 
-export default function MapaStack() {
+export default function MapaStack({ route }) {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -18,6 +18,9 @@ export default function MapaStack() {
           headerStyle: { backgroundColor: "#05e680" },
           headerTitleAlign: "center",
           headerShown: false,
+        }}
+        initialParam={{
+          user: route.params.user,
         }}
       />
     </Stack.Navigator>

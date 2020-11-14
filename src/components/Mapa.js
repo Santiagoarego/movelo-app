@@ -6,9 +6,10 @@ import * as permisos from "expo-permissions";
 import * as Location from "expo-location";
 import MapViewDirections from "react-native-maps-directions";
 import getDirections from "react-native-google-maps-directions";
+import axios from "axios";
 const GOOGLE_MAPS_APIKEY = "AIzaSyASzOJyhQutnqZdBlAE8BB0UU9Atw5hu0A";
 
-export default function Mapa() {
+export default function Mapa({ route, navigation }) {
   const [userLocation, setUserLocation] = useState(null);
   const [destinationLocation, setDestinationLocation] = useState({
     latitude: 0,
@@ -16,6 +17,32 @@ export default function Mapa() {
     latitudeDelta: 0.001,
     longitudeDelta: 0.001,
   });
+  const [ruta, setRuta] = useState({});
+
+  const apiGuardarRuta = () => {
+    axios({
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      params: { id: "1" },
+      url: "https://proyecto-arquitectura.herokuapp.com/proxy/agregaRuta",
+      data: ruta,
+    })
+      .then((res) => {
+        console.log("SUCCESS AXIOS");
+        console.log(res.data);
+        dataDirections();
+      })
+      .catch((err) => {
+        console.log("failed axios");
+        console.log(err.response.data);
+
+        Alert.alert("error", err.response.data.mensaje);
+      });
+  };
+
   const dataDirections = () => {
     const data = {
       source: userLocation,
@@ -91,6 +118,16 @@ export default function Mapa() {
                 apikey={GOOGLE_MAPS_APIKEY}
                 strokeWidth={3}
                 strokeColor="hotpink"
+                onReady={(obj) => {
+                  setRuta({
+                    id: "1",
+                    fechaInicio: new Date(),
+                    fechaFinal: new Date(),
+                    kmRecorridos: obj.distance,
+                    puntos: obj.coordinates,
+                  });
+                  console.log(ruta);
+                }}
               />
             )}
           </MapView>
@@ -101,7 +138,7 @@ export default function Mapa() {
                 if (!crear) {
                   setCrear(true);
                 } else {
-                  dataDirections();
+                  apiGuardarRuta();
                 }
               }}
               containerStyle={styles.btn}

@@ -52,6 +52,7 @@ export default function RegisterForm(props) {
         password: formData.password,
         rol: "biciusuario",
         bicicletas: [],
+        rutas: [],
       };
 
       apiEndPoint();
@@ -69,7 +70,7 @@ export default function RegisterForm(props) {
       },
       url:
         "https://proyecto-arquitectura.herokuapp.com/proxy/agregarBiciusuario",
-      data: JSON.stringify(usuario),
+      data: usuario,
     })
       .then((res) => {
         console.log("SUCCESS AXIOS");
