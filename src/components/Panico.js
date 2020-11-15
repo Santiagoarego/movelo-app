@@ -9,11 +9,16 @@ import {
 } from "react-native";
 import AwesomeAlert from "react-native-awesome-alerts";
 import BotonCircular from "./BotonCircular";
+import axios from "axios";
+import * as permisos from "expo-permissions";
+import * as Location from "expo-location";
 
+import { AuthContext } from "./context";
 export default function Panico() {
   const [showAlert, setshowAlert] = useState(false);
   const [userLocation, setUserLocation] = useState(null);
-
+  const [loading, setloading] = useState(false);
+  const { getUser } = React.useContext(AuthContext);
   useEffect(() => {
     (async () => {
       const resultPermissions = await permisos.askAsync(permisos.LOCATION);
@@ -34,7 +39,57 @@ export default function Panico() {
       }
     })();
   }, []);
+  const apiReportarEmergencia = () => {
+    console.log(userLocation);
+    let fecha = new Date();
+    let emergencia = {
+      id: "1",
+      idAcompanamiento: "",
+      idAsignado: "",
+      lugar: "",
+      fecha:
+        fecha.getDay() +
+        "/" +
+        (fecha.getMonth() + 1) +
+        "/" +
+        fecha.getFullYear(),
+      hora:
+        fecha.getHours() + ":" + fecha.getMinutes() + ":" + fecha.getSeconds(),
+      latitud: userLocation.latitude,
+      longitud: userLocation.longitude,
+      rutas: [],
+    };
+    axios({
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        correo: getUser().correo,
+        password: getUser().password,
+      },
+      params: { id: getUser().id },
+      url:
+        "https://proyecto-arquitectura.herokuapp.com/proxy/reportaEmergencia",
+      data: emergencia,
+    })
+      .then((res) => {
+        console.log("SUCCESS AXIOS");
+        console.log(res.data);
+        setloading(false);
+        setshowAlert(false);
+        Alert.alert(
+          "Alerta envíada",
+          "La alerta ha sido envíada con éxito, pronto recibirá ayuda"
+        );
+      })
+      .catch((err) => {
+        console.log("failed axios");
 
+        Alert.alert("error", err.response.data.mensaje);
+        setloading(false);
+        setshowAlert(false);
+      });
+  };
   return (
     <View style={styles.view}>
       {userLocation ? (
@@ -58,7 +113,7 @@ export default function Panico() {
 
           <AwesomeAlert
             show={showAlert}
-            showProgress={false}
+            showProgress={loading}
             title="Alerta!"
             message="¡Cuidado! Por favor, ten en cuenta que debes usar esta función de manera
           honesta y seria."
@@ -73,7 +128,8 @@ export default function Panico() {
               setshowAlert(false);
             }}
             onConfirmPressed={() => {
-              setshowAlert(false);
+              setloading(true);
+              apiReportarEmergencia();
             }}
           />
         </>

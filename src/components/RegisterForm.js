@@ -73,14 +73,10 @@ export default function RegisterForm(props) {
       data: usuario,
     })
       .then((res) => {
-        console.log("SUCCESS AXIOS");
-        console.log(res.data);
         setIsLoading(false);
         setUser(res.data);
       })
       .catch((err) => {
-        console.log("failed axios");
-        console.log(err.response.data);
         setIsLoading(false);
         Alert.alert("error", err.response.data.mensaje);
       });

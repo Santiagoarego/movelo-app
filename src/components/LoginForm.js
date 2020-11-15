@@ -31,33 +31,6 @@ export default function LoginForm(props) {
     }
   };
 
-  const apiEndPoint = async () => {
-    await fetch(
-      `https://proyecto-arquitectura.herokuapp.com/facade/loginBici?correo=${encodeURIComponent(
-        data.correo
-      )}&password=${encodeURIComponent(data.password)}`,
-      {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-      }
-    )
-      .then((res) => res.json())
-      .then((json) => {
-        console.log("respuesta servidor");
-        console.log(json);
-
-        setIsLoading(false);
-        if (!json.mensaje) setUser(json);
-      })
-      .catch((err) => {
-        setIsLoading(false);
-        console.log(err);
-      });
-  };
-
   const apiAxios = () => {
     axios({
       method: "POST",
@@ -69,14 +42,10 @@ export default function LoginForm(props) {
       },
     })
       .then((res) => {
-        console.log("SUCCESS AXIOS");
-        console.log(res.data);
         setIsLoading(false);
         setUser(res.data);
       })
       .catch((err) => {
-        console.log("failed axios");
-        console.log(err.response.data);
         setIsLoading(false);
         Alert.alert("error", err.response.data.mensaje);
       });

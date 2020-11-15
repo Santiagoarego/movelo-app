@@ -24,25 +24,23 @@ export default function Mapa({ route, navigation }) {
   const { getUser } = React.useContext(AuthContext);
 
   const apiGuardarRuta = () => {
+    console.log(userLocation);
     axios({
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
+        correo: getUser().correo,
+        password: getUser().password,
       },
       params: { id: getUser().id },
       url: "https://proyecto-arquitectura.herokuapp.com/proxy/agregaRuta",
       data: ruta,
     })
       .then((res) => {
-        console.log("SUCCESS AXIOS");
-        console.log(res.data);
         dataDirections();
       })
       .catch((err) => {
-        console.log("failed axios");
-        console.log(err.response.data);
-
         Alert.alert("error", err.response.data.mensaje);
       });
   };
@@ -124,7 +122,7 @@ export default function Mapa({ route, navigation }) {
                 strokeColor="hotpink"
                 onReady={(obj) => {
                   setRuta({
-                    id: "1",
+                    id: "",
                     fechaInicio: new Date(),
                     fechaFinal: new Date(),
                     kmRecorridos: obj.distance,
