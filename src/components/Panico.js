@@ -1,72 +1,89 @@
-import React from "react";
-import { StyleSheet, Text, View, Alert, TouchableOpacity, Button} from "react-native";
-import AwesomeAlert from 'react-native-awesome-alerts';
+import React, { useState, useEffect } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Alert,
+  TouchableOpacity,
+  Button,
+} from "react-native";
+import AwesomeAlert from "react-native-awesome-alerts";
 import BotonCircular from "./BotonCircular";
 
-export default class Panico extends React.Component {
+export default function Panico() {
+  const [showAlert, setshowAlert] = useState(false);
+  const [userLocation, setUserLocation] = useState(null);
 
-  constructor(props) {
-    super(props);
-    this.state = { showAlert: false };
-  };
- 
-  showAlert = () => {
-    this.setState({
-      showAlert: true
-    });
-  };
- 
-  hideAlert = () => {
-    this.setState({
-      showAlert: false
-    });
-  };
- 
-  render() {
-    const {showAlert} = this.state;
- 
-    return (
-      <View style={styles.view}>
-        <BotonCircular onPress={() => {
-          this.showAlert();
-        }}circleDiameter={300}>
-        </BotonCircular>
-        <Text
-          style={{
-            color: "white",
-            fontWeight: "normal",
-            textAlign: "center",
-            fontSize: 40,
-          }}
-        >
-          Alerta!
-        </Text>
- 
-        <AwesomeAlert
-          show={showAlert}
-          showProgress={false}
-          title="Alerta!"
-          message="¡Cuidado! Por favor, ten en cuenta que debes usar esta función de manera
+  useEffect(() => {
+    (async () => {
+      const resultPermissions = await permisos.askAsync(permisos.LOCATION);
+      const statusPermisions = resultPermissions.permissions.location.status;
+      if (statusPermisions !== "granted") {
+      } else {
+        try {
+          const currentLocation = await Location.getCurrentPositionAsync({});
+          setUserLocation({
+            latitude: currentLocation.coords.latitude,
+            longitude: currentLocation.coords.longitude,
+            latitudeDelta: 0.001,
+            longitudeDelta: 0.001,
+          });
+        } catch (e) {
+          Alert.alert("Ubicacion", "Activa los servicios de ubicacion");
+        }
+      }
+    })();
+  }, []);
+
+  return (
+    <View style={styles.view}>
+      {userLocation ? (
+        <>
+          <BotonCircular
+            onPress={() => {
+              setshowAlert(true);
+            }}
+            circleDiameter={300}
+          ></BotonCircular>
+          <Text
+            style={{
+              color: "white",
+              fontWeight: "normal",
+              textAlign: "center",
+              fontSize: 40,
+            }}
+          >
+            Alerta!
+          </Text>
+
+          <AwesomeAlert
+            show={showAlert}
+            showProgress={false}
+            title="Alerta!"
+            message="¡Cuidado! Por favor, ten en cuenta que debes usar esta función de manera
           honesta y seria."
-          closeOnTouchOutside={true}
-          closeOnHardwareBackPress={false}
-          showCancelButton={true}
-          showConfirmButton={true}
-          cancelText="Cancelar"
-          confirmText="Confirmar"
-          confirmButtonColor="#DD6B55"
-          onCancelPressed={() => {
-            this.hideAlert();
-          }}
-          onConfirmPressed={() => {
-            this.hideAlert();
-          }}
-        />
-      </View>
-    );
-  };
-};
- 
+            closeOnTouchOutside={true}
+            closeOnHardwareBackPress={false}
+            showCancelButton={true}
+            showConfirmButton={true}
+            cancelText="Cancelar"
+            confirmText="Confirmar"
+            confirmButtonColor="#DD6B55"
+            onCancelPressed={() => {
+              setshowAlert(false);
+            }}
+            onConfirmPressed={() => {
+              setshowAlert(false);
+            }}
+          />
+        </>
+      ) : (
+        <Text>Necesitamos permisos de localización</Text>
+      )}
+    </View>
+  );
+}
+
 const styles = StyleSheet.create({
   view: {
     flex: 1,
@@ -75,9 +92,9 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#fff',
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#fff",
   },
   button: {
     margin: 10,
@@ -87,7 +104,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#AEDEF4",
   },
   text: {
-    color: '#fff',
-    fontSize: 15
-  }
+    color: "#fff",
+    fontSize: 15,
+  },
 });

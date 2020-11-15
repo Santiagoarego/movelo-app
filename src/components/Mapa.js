@@ -7,6 +7,8 @@ import * as Location from "expo-location";
 import MapViewDirections from "react-native-maps-directions";
 import getDirections from "react-native-google-maps-directions";
 import axios from "axios";
+
+import { AuthContext } from "./context";
 const GOOGLE_MAPS_APIKEY = "AIzaSyASzOJyhQutnqZdBlAE8BB0UU9Atw5hu0A";
 
 export default function Mapa({ route, navigation }) {
@@ -19,6 +21,8 @@ export default function Mapa({ route, navigation }) {
   });
   const [ruta, setRuta] = useState({});
 
+  const { getUser } = React.useContext(AuthContext);
+
   const apiGuardarRuta = () => {
     axios({
       method: "POST",
@@ -26,7 +30,7 @@ export default function Mapa({ route, navigation }) {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      params: { id: "1" },
+      params: { id: getUser().id },
       url: "https://proyecto-arquitectura.herokuapp.com/proxy/agregaRuta",
       data: ruta,
     })
