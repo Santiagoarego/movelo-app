@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, TouchableOpacity, TextInput } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  TextInput,
+  Alert,
+} from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Button } from "react-native-elements";
@@ -61,7 +67,6 @@ export default function RegisterForm(props) {
     setFormError(errors);
   };
   const apiEndPoint = async () => {
-    console.log(usuario);
     axios({
       method: "POST",
       headers: {
@@ -75,10 +80,12 @@ export default function RegisterForm(props) {
       .then((res) => {
         setIsLoading(false);
         setUser(res.data);
+        console.log(res.data);
       })
       .catch((err) => {
         setIsLoading(false);
         Alert.alert("error", err.response.data.mensaje);
+        console.log(err.response.data);
       });
   };
   return (

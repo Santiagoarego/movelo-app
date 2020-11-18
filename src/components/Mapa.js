@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View, Alert } from "react-native";
+import { StyleSheet, Text, View, Alert, ActivityIndicator } from "react-native";
 import { Button } from "react-native-elements";
 import MapView, { Marker } from "react-native-maps";
 import * as permisos from "expo-permissions";
@@ -39,6 +39,7 @@ export default function Mapa({ route, navigation }) {
     })
       .then((res) => {
         dataDirections();
+        console.log(res.data);
       })
       .catch((err) => {
         Alert.alert("error", err.response.data.mensaje);
@@ -119,7 +120,7 @@ export default function Mapa({ route, navigation }) {
                 destination={destinationLocation}
                 apikey={GOOGLE_MAPS_APIKEY}
                 strokeWidth={3}
-                strokeColor="hotpink"
+                strokeColor="#05e680"
                 onReady={(obj) => {
                   setRuta({
                     id: "",
@@ -158,7 +159,9 @@ export default function Mapa({ route, navigation }) {
           </View>
         </>
       ) : (
-        <Text>Necesitamos permisos de localización</Text>
+        <View style={styles.container}>
+          <ActivityIndicator size="large" color="#05e680" />
+        </View>
       )}
     </View>
   );
@@ -169,6 +172,11 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     flexDirection: "column",
+  },
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
   },
 
   mapStyle: {

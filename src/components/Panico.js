@@ -6,6 +6,7 @@ import {
   Alert,
   TouchableOpacity,
   Button,
+  ActivityIndicator,
 } from "react-native";
 import AwesomeAlert from "react-native-awesome-alerts";
 import BotonCircular from "./BotonCircular";
@@ -76,11 +77,12 @@ export default function Panico() {
         console.log("SUCCESS AXIOS");
         console.log(res.data);
         setloading(false);
-        setshowAlert(false);
+
         Alert.alert(
           "Alerta envíada",
           "La alerta ha sido envíada con éxito, pronto recibirá ayuda"
         );
+        setshowAlert(false);
       })
       .catch((err) => {
         console.log("failed axios");
@@ -134,7 +136,9 @@ export default function Panico() {
           />
         </>
       ) : (
-        <Text>Necesitamos permisos de localización</Text>
+        <View styles={styles.container}>
+          <ActivityIndicator size="large" color="#05e680" />
+        </View>
       )}
     </View>
   );
@@ -150,7 +154,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#fff",
   },
   button: {
     margin: 10,

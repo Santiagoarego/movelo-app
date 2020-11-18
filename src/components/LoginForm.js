@@ -25,8 +25,7 @@ export default function LoginForm(props) {
       Alert.alert("Formato incorrecto de correo", "Revisa el correo");
     } else {
       setIsLoading(true);
-      console.log(data);
-      //apiEndPoint();
+
       apiAxios();
     }
   };
@@ -44,10 +43,12 @@ export default function LoginForm(props) {
       .then((res) => {
         setIsLoading(false);
         setUser(res.data);
+        console.log(res.data);
       })
       .catch((err) => {
         setIsLoading(false);
         Alert.alert("error", err.response.data.mensaje);
+        console.log(err.response.data);
       });
   };
   return (
